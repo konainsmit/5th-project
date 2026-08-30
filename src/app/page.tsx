@@ -1,8 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useSession } from "@/lib/auth-client";
+import { useMemo, useState } from "react";
 import {
   AlertCircle,
   ArrowUpRight,
@@ -116,14 +114,6 @@ function Dashboard() {
 }
 
 export default function Home() {
-  const router = useRouter();
-  const { data: session, isPending } = useSession();
-
-  useEffect(() => {
-    if (!isPending && !session) router.replace("/auth/sign-in");
-  }, [isPending, router, session]);
-
-  if (isPending || !session) return <div className="auth-loading"><div className="brand-mark"><Sparkles size={17} fill="currentColor" /></div></div>;
   return <Dashboard />;
 }
 
