@@ -1,6 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "@/lib/auth-client";
 import {
   AlertCircle,
   ArrowUpRight,
@@ -52,7 +54,7 @@ function ChannelIcon({ channel }: { channel: Channel }) {
   return <span className="channel-icon" style={{ background: `${meta.color}22`, color: meta.color }}>{meta.glyph}</span>;
 }
 
-export default function Home() {
+function Dashboard() {
   const [selectedId, setSelectedId] = useState("maya");
   const [query, setQuery] = useState("");
   const [takeover, setTakeover] = useState(false);
@@ -111,6 +113,18 @@ export default function Home() {
       {notice && <div className="toast"><Check size={15} /> {notice}</div>}
     </main>
   );
+}
+
+export default function Home() {
+  const router = useRouter();
+  const { data: session, isPending } = useSession();
+
+  useEffect(() => {
+    if (!isPending && !session) router.replace("/auth/sign-in");
+  }, [isPending, router, session]);
+
+  if (isPending || !session) return <div className="auth-loading"><div className="brand-mark"><Sparkles size={17} fill="currentColor" /></div></div>;
+  return <Dashboard />;
 }
 
 function Metric({ label, value, trend }: { label: string; value: string; trend: string }) { return <div className="metric"><span>{label}</span><strong>{value}</strong><em>{trend}</em></div>; }

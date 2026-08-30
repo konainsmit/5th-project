@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "@daveyplate/better-auth-ui/css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -141,3 +142,6 @@ button { cursor: pointer; }
 nextjs-portal {
   display: none !important;
 }
+
+.auth-page { min-height: 100vh; display: grid; place-items: center; padding: 28px 16px; background: radial-gradient(circle at 50% 15%, #1b2750 0, #0b111c 42%, #090d16 75%); color: #e5eaf4; }
+.auth-loading { min-height: 100vh; display: grid; place-items: center; background: #090d16; }
